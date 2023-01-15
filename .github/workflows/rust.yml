@@ -3,13 +3,14 @@ name: build-and-test
 on: [push]
 
 jobs:
-  test: cargo build and test
-  strategy:
-    matrix:
-      platform: [ubuntu-latest, macos-latest, windows-latest]
-  steps:
-    - uses: actions/checkout@v3
-    - uses: dtolnay/rust-toolchain@stable
-    - run:  cargo build
-    - run:  cargo test --all-features
-
+  test: 
+    name: cargo-build-and-test
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - run:  cargo build
+      - run:  cargo test --all-features

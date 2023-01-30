@@ -1,28 +1,21 @@
 use iced::{
-    widget::{button, column, row, text},
-    Alignment, Element, Error, Sandbox, Settings,
+    alignment::{Horizontal, Vertical},
+    widget::{column, row, text},
+    Alignment, Element, Error, Length, Sandbox, Settings,
 };
 
-struct Counter {
-    // The counter value
-    value: i32,
-    numbers: Vec<i32>,
-}
+struct DemoFrame {}
 
 #[derive(Debug, Clone, Copy)]
 pub enum Message {
-    IncrementPressed,
-    DecrementPressed,
+    NULL,
 }
 
-impl Sandbox for Counter {
+impl Sandbox for DemoFrame {
     type Message = Message;
 
     fn new() -> Self {
-        Self {
-            value: 0,
-            numbers: vec![],
-        }
+        Self {}
     }
 
     fn title(&self) -> String {
@@ -30,52 +23,85 @@ impl Sandbox for Counter {
     }
 
     fn view(&self) -> Element<Message> {
-        // Control panel for the counter
-        let counter_controls: Element<_> = row![
-            // The decrement button. We tell it to produce a
-            // `DecrementPressed` message when pressed
-            button("-").on_press(Message::DecrementPressed),
-            // We show the value of the counter here
-            text(self.value).size(50),
-            // The increment button. We tell it to produce an
-            // `IncrementPressed` message when pressed
-            button("+").on_press(Message::IncrementPressed),
+        //------------------------------------------
+        // Display Element Row
+        //------------------------------------------
+        column![
+            text::Text::new("Data Display")
+                .size(40)
+                .width(Length::Fill)
+                .horizontal_alignment(Horizontal::Center),
+            row![
+                text::Text::new("Display\nElement")
+                    .size(30)
+                    .width(Length::Fill)
+                    .horizontal_alignment(Horizontal::Center),
+                text::Text::new("Display\nElement")
+                    .size(30)
+                    .width(Length::Fill)
+                    .horizontal_alignment(Horizontal::Center),
+                text::Text::new("Display\nElement")
+                    .size(30)
+                    .width(Length::Fill)
+                    .horizontal_alignment(Horizontal::Center),
+            ]
+            .align_items(Alignment::Center)
+            .padding(20)
+            .spacing(10)
+            .width(Length::Fill),
+            //------------------------------------------
+            // Input Element Row
+            //------------------------------------------
+            text::Text::new("Inputs")
+                .size(40)
+                .width(Length::Fill)
+                .horizontal_alignment(Horizontal::Center),
+            row![
+                text::Text::new("Input\nElement")
+                    .size(30)
+                    .width(Length::Fill)
+                    .horizontal_alignment(Horizontal::Center),
+                text::Text::new("Input\nElement")
+                    .size(30)
+                    .width(Length::Fill)
+                    .horizontal_alignment(Horizontal::Center),
+                text::Text::new("Input\nElement")
+                    .size(30)
+                    .width(Length::Fill)
+                    .horizontal_alignment(Horizontal::Center),
+            ]
+            .align_items(Alignment::Center)
+            .padding(20)
+            .spacing(10)
+            .width(Length::Fill),
+            //------------------------------------------
+            // Plot Row
+            //------------------------------------------
+            text::Text::new("Plot")
+                .size(40)
+                .width(Length::Fill)
+                .horizontal_alignment(Horizontal::Center),
+            text::Text::new("Plot")
+                .size(120)
+                .width(Length::Fill)
+                .horizontal_alignment(Horizontal::Center)
+                .vertical_alignment(Vertical::Center)
         ]
         .padding(20)
-        .align_items(Alignment::Center)
-        .into();
-
-        // A dynamic chunk showing how the UI can be changed on the fly
-        let dynamic_numbers: Element<_> = column(
-            self.numbers
-                .iter()
-                .map(|i| text(i).size(50).into())
-                .collect(),
-        )
-        .spacing(20)
-        .into();
-
-        // A final layout for the UI
-        // This is returned as the view
-        column![counter_controls, dynamic_numbers]
-            .spacing(20)
-            .into()
+        .spacing(10)
+        .height(Length::Fill)
+        .into()
     }
 
     fn update(&mut self, message: Message) {
         match message {
-            Message::IncrementPressed => {
-                self.value += 1;
-                self.numbers.push(self.value);
+            Message::NULL => {
+                println!("Hello")
             }
-            Message::DecrementPressed => {
-                self.value -= 1;
-                self.numbers.pop();
-            }
-        }
+        };
     }
 }
 
 fn main() -> Result<(), Error> {
-    Counter::run(Settings::default())
+    DemoFrame::run(Settings::default())
 }
